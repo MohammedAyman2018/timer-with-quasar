@@ -18,9 +18,22 @@
             <q-item-section>
               <q-item-label>{{ log.title }}</q-item-label>
               <q-item-label caption>{{
-                formatDistance(new Date(), new Date(log.date), {
-                  includeSeconds: true,
-                })
+                formatDuration(
+                  intervalToDuration({
+                    start: new Date(log.date),
+                    end: new Date(),
+                  }),
+                  {
+                    format: [
+                      'years',
+                      'months',
+                      'weeks',
+                      'days',
+                      'hours',
+                      'minutes',
+                    ],
+                  }
+                )
               }}</q-item-label>
             </q-item-section>
             <q-item-section side top>
@@ -41,7 +54,7 @@
 import { IEvent } from 'src/components/models';
 import { defineComponent, onMounted, Ref, ref } from 'vue';
 import DateTimeInput from 'src/components/DateTimeInput.vue';
-import { format, formatDistance } from 'date-fns';
+import { format, formatDuration, intervalToDuration } from 'date-fns';
 import { useQuasar } from 'quasar';
 
 export default defineComponent({
@@ -109,7 +122,8 @@ export default defineComponent({
       removeFromLocalStorage,
       dateChanged,
       addToLocalStorage,
-      formatDistance,
+      intervalToDuration,
+      formatDuration,
     };
   },
   components: { DateTimeInput },
